@@ -11,7 +11,7 @@ class ProductGrains {
   ProductWeight productWeight; // tamano del producto
   double productPrice; // precio del producto autocalculado
   final int productAmount; // cantidad de producto por comprar
-  final bool liked;
+  bool liked;
 
   ProductGrains({
     @required this.productTitle,

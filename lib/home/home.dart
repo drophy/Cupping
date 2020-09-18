@@ -51,9 +51,12 @@ class _HomeState extends State<Home> {
               image: "https://i.imgur.com/XJ0y9qs.png",
             ),
           ),
-          ItemHome(
-            title: "Granos",
-            image: "https://i.imgur.com/5MZocC1.png",
+          GestureDetector(
+            onTap: _openGrainsPage,
+            child: ItemHome(
+              title: "Granos",
+              image: "https://i.imgur.com/5MZocC1.png",
+            ),
           ),
           ItemHome(
             title: "Postres",
@@ -72,14 +75,22 @@ class _HomeState extends State<Home> {
   void _openHotDrinksPage() {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => HotDrinksPage(drinksList: widget.productCart.drinks)
+        builder: (context) => HotDrinksPage(
+          productCart: widget.productCart,
+          productType: ProductType.BEBIDAS,
+        ),
       ),
     );
   }
 
   void _openGrainsPage() {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => null),
+      MaterialPageRoute(
+        builder: (context) => HotDrinksPage(
+          productCart: widget.productCart,
+          productType: ProductType.GRANO,
+        ),
+      ),
     );
   }
 

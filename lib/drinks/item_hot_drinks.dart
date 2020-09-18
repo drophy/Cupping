@@ -1,13 +1,15 @@
 import 'package:estructura_practica_1/drinks/item_hot_drinks_details.dart';
+import 'package:estructura_practica_1/models/product_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:estructura_practica_1/models/product_hot_drinks.dart';
 
 class ItemHotDrinks extends StatefulWidget {
-  final ProductHotDrinks drink;
+  final dynamic product;
+  final ProductType productType;
 
   ItemHotDrinks({
     Key key,
-    @required this.drink,
+    @required this.product,
+    @required this.productType,
   }) : super(key: key);
 
   @override
@@ -21,10 +23,15 @@ class _ItemHotDrinksState extends State<ItemHotDrinks> {
     final vw = MediaQuery.of(context).size.width / 100;
     final _cardHeight = 22 * vh;
 
+    String _productType;
+    if(widget.productType == ProductType.BEBIDAS) _productType = 'Bebidas';
+    else if (widget.productType == ProductType.GRANO) _productType = 'Café de grano';
+    else _productType = 'Otros';
+
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => HotDrinkDetailsPage(product: widget.drink),
+          builder: (context) => HotDrinkDetailsPage(product: widget.product),
         ));
       },
       child: Container(
@@ -43,9 +50,9 @@ class _ItemHotDrinksState extends State<ItemHotDrinks> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Café'),
-                    Text('${widget.drink.productTitle}'),
-                    Text('\$${widget.drink.productPrice}'),
+                    Text('$_productType'),
+                    Text('${widget.product.productTitle}'),
+                    Text('\$${widget.product.productPrice}'),
                   ],
                 ),
               ),
@@ -66,7 +73,7 @@ class _ItemHotDrinksState extends State<ItemHotDrinks> {
                       opacity: 0.75,
                       child: Image(
                         fit: BoxFit.cover,
-                        image: NetworkImage('${widget.drink.productImage}'),
+                        image: NetworkImage('${widget.product.productImage}'),
                       ),
                     ),
                     Positioned(
@@ -75,13 +82,13 @@ class _ItemHotDrinksState extends State<ItemHotDrinks> {
                       child: IconButton(
                         icon: Icon(
                           Icons.favorite,
-                          color: widget.drink.liked
+                          color: widget.product.liked
                               ? Colors.indigoAccent
                               : Colors.white,
                         ),
                         onPressed: () {
                           setState(() {
-                            widget.drink.liked = !widget.drink.liked;
+                            widget.product.liked = !widget.product.liked;
                           });
                         },
                       ),
