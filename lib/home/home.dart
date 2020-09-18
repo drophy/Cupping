@@ -1,3 +1,7 @@
+import 'package:estructura_practica_1/drinks/hot_drinks_page.dart';
+import 'package:estructura_practica_1/models/product_cart.dart';
+import 'package:estructura_practica_1/models/product_hot_drinks.dart';
+import 'package:estructura_practica_1/models/product_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:estructura_practica_1/home/item_home.dart';
 import 'package:estructura_practica_1/profile.dart';
@@ -5,6 +9,11 @@ import 'package:estructura_practica_1/profile.dart';
 class Home extends StatefulWidget {
   final String title;
   Home({Key key, this.title}) : super(key: key);
+
+  final ProductCart productCart = ProductCart(
+    drinks: ProductRepository.loadProducts(ProductType.BEBIDAS),
+    grains: ProductRepository.loadProducts(ProductType.GRANO),
+  );
 
   @override
   _HomeState createState() => _HomeState();
@@ -28,6 +37,7 @@ class _HomeState extends State<Home> {
           ),
           IconButton(
             icon: Icon(Icons.shopping_cart),
+            // TODO: Go to the cart!
             onPressed: () {},
           )
         ],
@@ -60,13 +70,9 @@ class _HomeState extends State<Home> {
   }
 
   void _openHotDrinksPage() {
-    // TODO: completar en navigator pasando los parametros a la pagina de HotDrinksPage
-
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) {
-          return null;
-        },
+        builder: (context) => HotDrinksPage(drinksList: widget.productCart.drinks)
       ),
     );
   }
