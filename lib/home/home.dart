@@ -1,3 +1,4 @@
+import 'package:estructura_practica_1/cart/cart.dart';
 import 'package:estructura_practica_1/drinks/hot_drinks_page.dart';
 import 'package:estructura_practica_1/models/product_cart.dart';
 import 'package:estructura_practica_1/models/product_hot_drinks.dart';
@@ -37,8 +38,7 @@ class _HomeState extends State<Home> {
           ),
           IconButton(
             icon: Icon(Icons.shopping_cart),
-            // TODO: Go to the cart!
-            onPressed: () {},
+            onPressed: _openCart,
           )
         ],
       ),
@@ -68,6 +68,14 @@ class _HomeState extends State<Home> {
             image: "https://i.imgur.com/fMjtSpy.png",
           ),
         ],
+      ),
+    );
+  }
+
+  void _openCart() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => Cart(productsList: widget.productCart.itemCartList)
       ),
     );
   }

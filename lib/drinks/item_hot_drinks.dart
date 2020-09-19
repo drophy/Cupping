@@ -1,15 +1,19 @@
 import 'package:estructura_practica_1/drinks/item_hot_drinks_details.dart';
+import 'package:estructura_practica_1/models/product_cart.dart';
+import 'package:estructura_practica_1/models/product_hot_drinks.dart';
 import 'package:estructura_practica_1/models/product_repository.dart';
 import 'package:flutter/material.dart';
 
 class ItemHotDrinks extends StatefulWidget {
-  final dynamic product;
+  final ProductHotDrinks product;
   final ProductType productType;
+  final ProductCart productCart;
 
   ItemHotDrinks({
     Key key,
     @required this.product,
     @required this.productType,
+    @required this.productCart,
   }) : super(key: key);
 
   @override
@@ -24,14 +28,21 @@ class _ItemHotDrinksState extends State<ItemHotDrinks> {
     final _cardHeight = 22 * vh;
 
     String _productType;
-    if(widget.productType == ProductType.BEBIDAS) _productType = 'Bebidas';
-    else if (widget.productType == ProductType.GRANO) _productType = 'Café de grano';
-    else _productType = 'Otros';
+    if (widget.productType == ProductType.BEBIDAS)
+      _productType = 'Bebidas';
+    else if (widget.productType == ProductType.GRANO)
+      _productType = 'Café de grano';
+    else
+      _productType = 'Otros';
 
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => HotDrinkDetailsPage(product: widget.product),
+          builder: (context) => HotDrinkDetailsPage(
+            product: widget.product,
+            productType: widget.productType,
+            productCart: widget.productCart,
+          ),
         ));
       },
       child: Container(

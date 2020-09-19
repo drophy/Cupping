@@ -2,7 +2,6 @@ import 'package:estructura_practica_1/models/product_cart.dart';
 import 'package:estructura_practica_1/models/product_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:estructura_practica_1/drinks/item_hot_drinks.dart';
-import 'package:estructura_practica_1/models/product_hot_drinks.dart';
 
 class HotDrinksPage extends StatelessWidget {
   final ProductCart productCart;
@@ -41,6 +40,7 @@ class HotDrinksPage extends StatelessWidget {
           return ItemHotDrinks(
             product: productsList[index],
             productType: productType,
+            productCart: productCart,
           );
         },
       ),

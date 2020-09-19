@@ -25,7 +25,13 @@ class _CartState extends State<Cart> {
 
   @override
   Widget build(BuildContext context) {
+    final vh = MediaQuery.of(context).size.height / 100;
+    final vw = MediaQuery.of(context).size.width / 100;
+
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Lista de compras'),
+      ),
       body: Stack(
         children: <Widget>[
           Container(
@@ -41,8 +47,18 @@ class _CartState extends State<Cart> {
             ),
           ),
           Positioned(
-            bottom: 0,
-            child: Text("Total: \$$_total"),
+            bottom: 20,
+            left: 20,
+            right: 20,
+            child: Column(children: [
+              Text("Total: $_total MX\$"),
+              SizedBox(height: 4*vh),
+              RaisedButton(
+                padding: EdgeInsets.symmetric(horizontal: 32 * vw),
+                child: Text('PAGAR'),
+                onPressed: null,
+              )
+            ]),
           ),
         ],
       ),

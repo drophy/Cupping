@@ -1,4 +1,5 @@
 import 'package:estructura_practica_1/cart/cart.dart';
+import 'package:estructura_practica_1/models/product_cart.dart';
 import 'package:estructura_practica_1/models/product_item_cart.dart';
 import 'package:estructura_practica_1/models/product_repository.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,14 @@ import 'package:estructura_practica_1/models/product_hot_drinks.dart';
 
 class HotDrinkDetailsPage extends StatefulWidget {
   final ProductHotDrinks product;
-  HotDrinkDetailsPage({Key key, @required this.product}) : super(key: key);
+  final ProductType productType;
+  final ProductCart productCart;
+  HotDrinkDetailsPage({
+    Key key,
+    @required this.product,
+    @required this.productType,
+    @required this.productCart,
+  }) : super(key: key);
 
   @override
   _HotDrinkDetailsPageState createState() => _HotDrinkDetailsPageState();
@@ -18,6 +26,12 @@ class _HotDrinkDetailsPageState extends State<HotDrinkDetailsPage> {
     final vh = MediaQuery.of(context).size.height / 100;
     final vw = MediaQuery.of(context).size.width / 100;
     double _imageMarin = 10;
+
+    List<String> chipLabels;
+    if (widget.productType == ProductType.BEBIDAS)
+      chipLabels = ['Chico', 'Mediano', 'Grande'];
+    else if (widget.productType == ProductType.GRANO)
+      chipLabels = ['250 G', '1K'];
 
     return Scaffold(
       appBar: AppBar(
@@ -90,7 +104,7 @@ class _HotDrinkDetailsPageState extends State<HotDrinkDetailsPage> {
                   Row(children: [
                     GestureDetector(
                       child: Chip(
-                        label: Text('Chico'),
+                        label: Text('${chipLabels[0]}'),
                         backgroundColor:
                             widget.product.productSize == ProductSize.CH
                                 ? Colors.deepPurple[100]
@@ -107,7 +121,7 @@ class _HotDrinkDetailsPageState extends State<HotDrinkDetailsPage> {
                     SizedBox(width: 10),
                     GestureDetector(
                       child: Chip(
-                        label: Text('Mediano'),
+                        label: Text('${chipLabels[1]}'),
                         backgroundColor:
                             widget.product.productSize == ProductSize.M
                                 ? Colors.deepPurple[100]
@@ -121,23 +135,25 @@ class _HotDrinkDetailsPageState extends State<HotDrinkDetailsPage> {
                         });
                       },
                     ),
-                    SizedBox(width: 10),
-                    GestureDetector(
-                      child: Chip(
-                        label: Text('Grande'),
-                        backgroundColor:
-                            widget.product.productSize == ProductSize.G
-                                ? Colors.deepPurple[100]
-                                : Colors.grey[300],
+                    if (widget.productType == ProductType.BEBIDAS)
+                      SizedBox(width: 10),
+                    if (widget.productType == ProductType.BEBIDAS)
+                      GestureDetector(
+                        child: Chip(
+                          label: Text('${chipLabels[2]}'),
+                          backgroundColor:
+                              widget.product.productSize == ProductSize.G
+                                  ? Colors.deepPurple[100]
+                                  : Colors.grey[300],
+                        ),
+                        onTap: () {
+                          setState(() {
+                            widget.product.productSize = ProductSize.G;
+                            widget.product.productPrice =
+                                widget.product.productPriceCalculator();
+                          });
+                        },
                       ),
-                      onTap: () {
-                        setState(() {
-                          widget.product.productSize = ProductSize.G;
-                          widget.product.productPrice =
-                              widget.product.productPriceCalculator();
-                        });
-                      },
-                    ),
                   ]),
                   Text('\$${widget.product.productPrice}')
                 ],
@@ -149,24 +165,19 @@ class _HotDrinkDetailsPageState extends State<HotDrinkDetailsPage> {
                 children: [
                   RaisedButton(
                     child: Text('AGREGAR AL CARRITO'),
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => Cart(productsList: [
-                            ProductItemCart(
-                              productAmount: 1,
-                              productTitle: widget.product.productTitle,
-                              productPrice: widget.product.productPrice,
-                              typeOfProduct: ProductType.BEBIDAS
-                            )
-                          ]),
-                        ),
-                      );
-                    },
+                    onPressed: _addToCart,
                   ),
                   RaisedButton(
                     child: Text('COMPRAR'),
-                    onPressed: null,
+                    onPressed: () {
+                      _addToCart();
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => Cart(
+                              productsList: widget.productCart.itemCartList),
+                        ),
+                      );
+                    },
                   )
                 ],
               )
@@ -175,5 +186,15 @@ class _HotDrinkDetailsPageState extends State<HotDrinkDetailsPage> {
         ),
       ),
     );
+  }
+
+  _addToCart() {
+    widget.productCart.itemCartList.add(ProductItemCart(
+      productAmount: 1,
+      productPrice: widget.product.productPrice,
+      productTitle: widget.product.productTitle,
+      typeOfProduct: ProductType.BEBIDAS,
+      productImage: widget.product.productImage
+    ));
   }
 }
