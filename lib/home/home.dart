@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:estructura_practica_1/home/item_home.dart';
 import 'package:estructura_practica_1/profile.dart';
 import 'package:estructura_practica_1/utils/constants.dart';
+import 'package:estructura_practica_1/colors.dart';
 
 class Home extends StatefulWidget {
   final String title;
@@ -29,17 +30,11 @@ class _HomeState extends State<Home> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(
+          widget.title,
+          style: TextStyle(color: cuppingWhite), // Hard coded, but idk how else to do it :c
+        ),
         actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.person),
-            onPressed: () {
-              Navigator.of(context).push(
-                // TODO: Eliminar este boton y adaptar todo el contenido de la pagina de perfil en un Drawer aqui en la pantalla Home
-                MaterialPageRoute(builder: (_) => Profile()),
-              );
-            },
-          ),
           IconButton(
             icon: Icon(Icons.shopping_cart),
             onPressed: _openCart,
@@ -102,7 +97,7 @@ class _HomeState extends State<Home> {
                 ListTile(
                   title: Text(PROFILE_CART),
                   leading: Icon(Icons.shopping_cart),
-                  onTap: () {},
+                  onTap: _openCart,
                 ),
                 ListTile(
                   title: Text(PROFILE_WISHES),

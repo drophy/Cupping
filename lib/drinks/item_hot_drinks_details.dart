@@ -90,16 +90,16 @@ class _HotDrinkDetailsPageState extends State<HotDrinkDetailsPage> {
                 ]),
               ),
               // DESCRIPTION
-              Text('${widget.product.productTitle}'),
+              Text('${widget.product.productTitle}', style: Theme.of(context).textTheme.headline5),
               SizedBox(height: 3 * vh),
-              Text('${widget.product.productDescription}'),
+              Text('${widget.product.productDescription}', style: Theme.of(context).textTheme.bodyText1),
               SizedBox(height: 3 * vh),
               // LABELS
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('TAMAÑOS DISPONIBLES'),
-                  Text('PRECIO'),
+                  Text('TAMAÑOS DISPONIBLES', style: Theme.of(context).textTheme.subtitle2),
+                  Text('PRECIO', style: Theme.of(context).textTheme.subtitle2),
                 ],
               ),
               // SIZES AND PRICE

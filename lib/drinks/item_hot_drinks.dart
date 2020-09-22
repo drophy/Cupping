@@ -49,7 +49,7 @@ class _ItemHotDrinksState extends State<ItemHotDrinks> {
         height: _cardHeight,
         margin: EdgeInsets.symmetric(vertical: 1.5 * vh, horizontal: 12 * vw),
         child: Card(
-          color: Colors.indigo[100],
+          color: Theme.of(context).accentColor,
           elevation: 4, // so it casts a shadow
           child: Row(children: [
             // LEFT SIDE
@@ -61,9 +61,12 @@ class _ItemHotDrinksState extends State<ItemHotDrinks> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('$_productType'),
-                    Text('${widget.product.productTitle}'),
-                    Text('\$${widget.product.productPrice}'),
+                    Text(
+                      '$_productType',
+                      style: Theme.of(context).textTheme.subtitle2,
+                    ),
+                    Text('${widget.product.productTitle}', style: Theme.of(context).textTheme.headline6,),
+                    Text('\$${widget.product.productPrice}', style: Theme.of(context).textTheme.headline5,),
                   ],
                 ),
               ),

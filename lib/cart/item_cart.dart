@@ -44,12 +44,20 @@ class _ItemCartState extends State<ItemCart> {
               // mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('${widget.product.productTitle}'),
+                Text(
+                  '${widget.product.productTitle}',
+                  style: Theme.of(context).textTheme.headline6,
+                ),
                 SizedBox(height: 2 * vh),
                 Text(
-                    '${widget.product.typeOfProduct.toString().split('.')[1]}'),
+                  '${widget.product.typeOfProduct.toString().split('.')[1]}',
+                  style: Theme.of(context).textTheme.subtitle2,
+                ),
                 SizedBox(height: 2 * vh),
-                Text("${widget.product.productPrice}"),
+                Text(
+                  "\$${widget.product.productPrice}",
+                  style: Theme.of(context).textTheme.headline5,
+                ),
                 SizedBox(height: 2 * vh),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -60,7 +68,7 @@ class _ItemCartState extends State<ItemCart> {
                     ),
                     Text("${widget.product.productAmount}"),
                     IconButton(
-                      icon: Icon(Icons.remove_circle),
+                      icon: Icon(Icons.remove_circle_outline),
                       onPressed: _remProd,
                     ),
                   ],
@@ -110,6 +118,7 @@ class _ItemCartState extends State<ItemCart> {
 
   // Product is removed from list entirely
   void _deleteProd() {
-    widget.onAmountUpdated(-1 * widget.product.productAmount * widget.product.productPrice);
+    widget.onAmountUpdated(
+        -1 * widget.product.productAmount * widget.product.productPrice);
   }
 }
