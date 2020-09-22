@@ -6,6 +6,7 @@ import 'package:estructura_practica_1/models/product_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:estructura_practica_1/home/item_home.dart';
 import 'package:estructura_practica_1/profile.dart';
+import 'package:estructura_practica_1/utils/constants.dart';
 
 class Home extends StatefulWidget {
   final String title;
@@ -23,7 +24,10 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
+    var _scaffoldKey = GlobalKey<ScaffoldState>();
+
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text(widget.title),
         actions: <Widget>[
@@ -62,12 +66,68 @@ class _HomeState extends State<Home> {
             title: "Postres",
             image: "https://i.imgur.com/fI7Tezv.png",
           ),
-          ItemHome(
-            // TODO: Al hacer clic, que muestre un snackbar de "Proximamente"
-            title: "Tazas",
-            image: "https://i.imgur.com/fMjtSpy.png",
+          GestureDetector(
+            onTap: () {
+              _scaffoldKey.currentState
+                ..hideCurrentSnackBar()
+                ..showSnackBar(SnackBar(content: Text('Próximamente')));
+            },
+            child: ItemHome(
+              // DONE: Al hacer clic, que muestre un snackbar de "Proximamente"
+              title: "Tazas",
+              image: "https://i.imgur.com/fMjtSpy.png",
+            ),
           ),
         ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            UserAccountsDrawerHeader(
+              accountName: Text(PROFILE_NAME),
+              accountEmail: Text(PROFILE_EMAIL),
+              currentAccountPicture: CircleAvatar(
+                child: CircleAvatar(
+                  backgroundImage: NetworkImage(
+                    PROFILE_PICTURE,
+                  ),
+                  minRadius: 40,
+                  maxRadius: 80,
+                ),
+              ),
+            ),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                ListTile(
+                  title: Text(PROFILE_CART),
+                  leading: Icon(Icons.shopping_cart),
+                  onTap: () {},
+                ),
+                ListTile(
+                  title: Text(PROFILE_WISHES),
+                  leading: Icon(Icons.thumb_up),
+                  onTap: () {},
+                ),
+                ListTile(
+                  title: Text(PROFILE_HISTORY),
+                  leading: Icon(Icons.store),
+                  onTap: () {},
+                ),
+                ListTile(
+                  title: Text(PROFILE_SETTINGS),
+                  leading: Icon(Icons.settings),
+                  onTap: () {},
+                ),
+                ListTile(
+                  title: Text(PROFILE_LOGOUT),
+                  leading: Icon(Icons.close),
+                  onTap: () {},
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -75,8 +135,8 @@ class _HomeState extends State<Home> {
   void _openCart() {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => Cart(productsList: widget.productCart.itemCartList)
-      ),
+          builder: (context) =>
+              Cart(productsList: widget.productCart.itemCartList)),
     );
   }
 

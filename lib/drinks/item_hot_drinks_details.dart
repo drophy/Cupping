@@ -78,8 +78,13 @@ class _HotDrinkDetailsPageState extends State<HotDrinkDetailsPage> {
                     child: IconButton(
                       icon: Icon(
                         Icons.favorite,
-                        color: Colors.white,
+                        color: widget.product.liked? Colors.indigoAccent : Colors.white,
                       ),
+                      onPressed: () {
+                        setState(() {
+                          widget.product.liked = !widget.product.liked;
+                        });
+                      },
                     ),
                   )
                 ]),

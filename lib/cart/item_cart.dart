@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 
 class ItemCart extends StatefulWidget {
   final ProductItemCart product;
+  final List<ProductItemCart> productsList;
   final ValueChanged<double> onAmountUpdated;
   ItemCart({
     Key key,
     @required this.onAmountUpdated,
+    @required this.productsList,
     @required this.product,
   }) : super(key: key);
 
@@ -26,6 +28,7 @@ class _ItemCartState extends State<ItemCart> {
         children: <Widget>[
           // PICTURE
           Expanded(
+            flex: 4,
             child: Container(
               height: 200,
               child: Image.network(
@@ -36,6 +39,7 @@ class _ItemCartState extends State<ItemCart> {
           ),
           // TEXT
           Expanded(
+            flex: 5,
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -65,18 +69,25 @@ class _ItemCartState extends State<ItemCart> {
             ),
           ),
           // ICON BUTTONS
-          // Expanded(
-          //   child: Container(
-          //     height: 200,
-          //     child: Column(
-          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //       children: [
-          //         Icon(Icons.favorite),
-          //         Icon(Icons.delete),
-          //       ],
-          //     ),
-          //   ),
-          // )
+          Expanded(
+            flex: 1,
+            child: Container(
+              height: 200,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Icon(Icons.favorite),
+                  IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () {
+                      print(widget.productsList.remove(widget.product));
+                      _deleteProd();
+                    },
+                  )
+                ],
+              ),
+            ),
+          )
         ],
       ),
     );
@@ -89,10 +100,16 @@ class _ItemCartState extends State<ItemCart> {
     widget.onAmountUpdated(widget.product.productPrice);
   }
 
+  // Quantity is decreased by 1
   void _remProd() {
     setState(() {
       --widget.product.productAmount;
     });
     widget.onAmountUpdated(-1 * widget.product.productPrice);
+  }
+
+  // Product is removed from list entirely
+  void _deleteProd() {
+    widget.onAmountUpdated(-1 * widget.product.productAmount * widget.product.productPrice);
   }
 }

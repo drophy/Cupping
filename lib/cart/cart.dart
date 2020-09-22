@@ -32,35 +32,79 @@ class _CartState extends State<Cart> {
       appBar: AppBar(
         title: Text('Lista de compras'),
       ),
-      body: Stack(
-        children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height * 0.9,
-            child: ListView.builder(
-              itemCount: widget.productsList.length,
-              itemBuilder: (BuildContext context, int index) {
-                return ItemCart(
-                  onAmountUpdated: _priceUpdate,
-                  product: widget.productsList[index],
-                );
-              },
+      body: Container(
+        height: 90 * vh,
+        child: Stack(
+          children: <Widget>[
+            Container(
+              height: 70 * vh,
+              child: ListView.builder(
+                itemCount: widget.productsList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ItemCart(
+                    onAmountUpdated: _priceUpdate,
+                    productsList: widget.productsList,
+                    product: widget.productsList[index],
+                  );
+                },
+              ),
             ),
-          ),
-          Positioned(
-            bottom: 20,
-            left: 20,
-            right: 20,
-            child: Column(children: [
-              Text("Total: $_total MX\$"),
-              SizedBox(height: 4*vh),
-              RaisedButton(
-                padding: EdgeInsets.symmetric(horizontal: 32 * vw),
-                child: Text('PAGAR'),
-                onPressed: null,
-              )
-            ]),
-          ),
-        ],
+            Positioned(
+              bottom: 20,
+              left: 20,
+              right: 20,
+              child: Column(children: [
+                Text("Total: $_total MX\$"),
+                SizedBox(height: 4 * vh),
+                RaisedButton(
+                  padding: EdgeInsets.symmetric(horizontal: 32 * vw),
+                  child: Text('PAGAR'),
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            contentPadding: EdgeInsets.all(0),
+                            content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: double.infinity,
+                                    height: 24*vh,
+                                    child: Image.network(
+                                      'https://www.promesain.com/wp-content/uploads/2018/07/Coffee-beans.jpg',
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text('¡Oops!'),
+                                          Text(
+                                              'Su orden no pudo ser completada. Esta es sólo una tarea. Viendo el lado positivo, ¡no le cobraremos!')
+                                        ]),
+                                  )
+                                ]),
+                            actions: [
+                              FlatButton(
+                                child: Text('ACEPTAR'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              )
+                            ],
+                          );
+                        });
+                  },
+                )
+              ]),
+            ),
+          ],
+        ),
       ),
     );
   }
